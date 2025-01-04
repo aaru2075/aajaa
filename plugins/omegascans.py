@@ -8,7 +8,7 @@ import re
 
 chapters = dict()
 
-class OmgeaScansClient(MangaClient):
+class OmegaScansClient(MangaClient):
 
     base_url = urlparse("https://omegascans.org")
     search_url = "https://api.omegascans.org/query"
@@ -20,7 +20,7 @@ class OmgeaScansClient(MangaClient):
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:97.0) Gecko/20100101 Firefox/97.0'
     }
 
-    def __init__(self, *args, name="ReaperScans", **kwargs):
+    def __init__(self, *args, name="OmegaScans", **kwargs):
         super().__init__(*args, name=name, headers=self.pre_headers, **kwargs)
 
     def mangas_from_page(self, data):
@@ -41,7 +41,7 @@ class OmgeaScansClient(MangaClient):
                 chapters[f'{manga["series_slug"]}'] = manga["free_chapters"]
         images = []
         for nam in names:
-            images.append("https://te.legra.ph/file/d55e3cdf8a5d3eb8318e7.jpg")
+            images.append("TH1.jpg")
         mangas = [MangaCard(self, *tup) for tup in zip(names, url, images)]
         
         return mangas
@@ -143,4 +143,4 @@ class OmgeaScansClient(MangaClient):
                 not_updated.append(lc.url)
                 
         return updated, not_updated
-      
+        
