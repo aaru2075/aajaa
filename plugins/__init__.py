@@ -1,5 +1,6 @@
 from .client import MangaClient, MangaCard, MangaChapter
 from .flamecomics import FlameComicsClient
+from .omegascan import OmegaScanClient
 from .manhuako import ManhuaKoClient
 from .tmo import TMOClient
 from .manhuaplus import ManhuaPlusClient
@@ -14,6 +15,7 @@ from .kissmanga import KissMangaClient
 from .mangatigre import MangatigreClient
 from .mangahasu import MangaHasuClient
 from .mangabuddy import MangaBuddyClient
+from .reaperscans import ReaperScansClient
 from .asurascans import AsuraScansClient
 from .ninemanga import NineMangaClient
 from .likemanga import LikeMangaClient
