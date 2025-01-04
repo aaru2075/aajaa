@@ -27,8 +27,9 @@ from plugins.client import clean
 from tools.aqueue import AQueue
 from tools.flood import retry_on_flood
 
-
+SUDO = []
 OWNER_ID = 1788144071 # put owner id in number directly 
+SUDO.append(OWNER_ID)
 auth_users = [1880221341,5164955785,7716045686,6975428639,1302933634,6321064549] # eg: [83528911,836289,9362891]
 AUTH_USERS = auth_users + [OWNER_ID]
 sb = [
@@ -56,6 +57,7 @@ plugin_dicts: Dict[str, Dict[str, MangaClient]] = {
         "Manganelo": ManganeloClient(),
         "Manganato": ManganatoClient(),
         "MangaSee":  MangaSeeClient(),
+	"ReaperScans": ReaperScansClient(),
         "MangaBuddy": MangaBuddyClient(),
         "AsuraScans": AsuraScansClient(),
         "NineManga": NineMangaClient(),        
@@ -71,6 +73,7 @@ plugin_dicts: Dict[str, Dict[str, MangaClient]] = {
         "MangasIn": MangasInClient(),
     },
     "🔞 18+": {
+	"OmegaScans": OmegaScansClient(),
         "Manga18fx": Manga18fxClient(),
         "MangaDistrict": MangaDistrictClient(),
     }
@@ -255,6 +258,8 @@ async def on_set_caption(client: Client, message: Message):
 
 @bot.on_message(filters.command(['pto', 'photo']) & filters.private & filters.user(AUTH_USERS))
 async def on_photo(client: Client, message: Message):
+	if message.from_user.id not in AUTH_USERS:
+		return await message.reply("You can't use me buddy!!")
 	try: 
 		photo = message.text.split(" ")[1]
 		if not photo.endswith(".jpg"):
@@ -286,6 +291,27 @@ async def on_refresh(client: Client, message: Message):
         return await message.reply("This file was already refreshed")
     await db.erase(chapter)
     return await message.reply("File refreshed successfully!")
+
+@bot.on_message(filters=(filters.command(['add', 'add_user']) & filters.private & filters.user(SUDO)))
+async def add_user(client: Client, message: Message):
+	try: 
+		user_id = message.text.split(" ")[1]
+		user_id = int(user_id)
+		AUTH_USERS.append(user_id)
+		return await client.send_message(chat_id=message.from_user.id, text=f"{user_id} added to admin list")
+	except:
+		return await message.reply(f"Could not add it")
+
+@bot.on_message(filters=(filters.command(['remove', 'rm_user']) & filters.private & filters.user(SUDO)))
+async def rm_user(client: Client, message: Message):
+	try: 
+		user_id = message.text.split(" ")[1]
+		user_id = int(user_id)
+		AUTH_USERS.remove(user_id)
+		return await client.send_message(chat_id=message.from_user.id, text=f"{user_id} removed from admin list")
+	except:
+		return await message.reply(f"Could not remove it")
+		
 
 
 @bot.on_message(filters=filters.command(['subs']))
