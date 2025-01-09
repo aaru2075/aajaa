@@ -295,6 +295,12 @@ async def add_user(client: Client, message: Message):
 	except:
 		return await message.reply(f"Could not add it")
 
+@bot.on_chat_join_request(filters.channel)
+async def handle_join_request(client, join_request: ChatJoinRequest):
+    user_id = join_request.from_user.id
+    channel_id = join_request.chat.id
+    await client.approve_chat_join_request(chat_id=channel_id, user_id=user_id)
+
 @bot.on_message(filters=(filters.command(['remove', 'rm_user']) & filters.private & filters.user(SUDO)))
 async def rm_user(client: Client, message: Message):
 	try: 
