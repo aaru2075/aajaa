@@ -9,7 +9,7 @@ import datetime as dt
 import json
 
 import pyrogram.errors
-from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery, InputMediaDocument
+from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery, InputMediaDocument, ChatJoinRequest
 
 from config import env_vars, dbname
 from img2cbz.core import fld2cbz
